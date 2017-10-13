@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+  <title>Handlebars test</title>
+
+  <style>
+    label {
+      width: 400px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+	<h1>Handlebars usage example</h1>
+
+  <p>
+    <label for="name">Input name here:</label>
+    <input type="text" id="name" />
+  </p>
+
+  <p>
+    <label for="words">Input some space separated words here (optional):</label>
+    <input type="text" id="words" />
+  </p>
+
+  <button id="click-me">See the power of template!</button>
+  <div id="result"></div>
+
+
+  <div style="display: none" div="templates">
+    <script type="text/x-handlebars-template" id="template1">
+      <div class="wrap">
+        <p>Hi! I am template1.</p>
+        <p>Here is name passed: {{ name }}</p>
+        {{#if words}}
+        <p>And here - words, one per line:
+          <ul>
+            {{#words}}
+              <li>{{this}}</li>
+            {{/words}}
+          </ul>
+        </p>
+        {{/if}}
+
+        <p>For more information about template engine and available tags please
+          <a href="http://handlebarsjs.com/">see official documentation.</a></p>
+
+      </div>
+    </script>
+
+  </div>
+
+  <script type="text/javascript" src="static/lib/handlebars/handlebars.min.js"></script>
+
+  <script type="text/javascript" src="static/js/templates.js"></script>
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      var button = document.querySelector('#click-me');
+      var result = document.querySelector('#result');
+
+      button.onclick = function() {
+        var name = document.querySelector('#name').value;
+        var words = document.querySelector('#words').value.match(/[^ ]+/g);
+
+        var content = Templates.renderTemplate('template1', {
+          name: name,
+          words: words
+        });
+
+        result.innerHTML = content;
+      };
+    });
+  </script>
+</body>
+</html>
